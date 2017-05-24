@@ -22,6 +22,7 @@ Screenshots:
   1. Install [mySIMBL](https://github.com/w0lfschild/mySIMBL).
   2. Build from source or download the [latest version](https://github.com/kuglee/BatteryExtra/releases/latest).
   3. Open **BatteryExtra.bundle** with **mySIMBL**.
+  4. Log out then log back in or run `killall -KILL SystemUIServer` from the command line.
 
 # Preferences
 

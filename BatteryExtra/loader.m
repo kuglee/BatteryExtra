@@ -71,13 +71,8 @@ NSString *helperPath;
   else
     NSLog(@"%@: Could not swizzle SystemUIServer!", bundleName);
 
-  if (didSwizzle && !didSwizzleMenuItem) {
-    if ([BatterySUISStartupObject reloadMenuExtra] == 0) {
-      NSLog(@"%@: MenuExtra was reloaded successfully!", bundleName);
-      [BatterySUISStartupObject
-          swizzleMenuExtra:[menuExtraMainBundle principalClass]];
-    }
-  }
+  if (didSwizzle && [BatterySUISStartupObject reloadMenuExtra] == 0)
+    NSLog(@"%@: SystemUIServer was reloaded successfully!", bundleName);
 }
 
 - (id)loadMenuExtra:(id)arg1 withData:(id)arg2 atPosition:(long long)arg3 {

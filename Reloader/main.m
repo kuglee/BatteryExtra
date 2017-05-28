@@ -18,36 +18,39 @@ int CoreMenuExtraRemoveMenuExtra(void *menuExtra, int arg1);
 int main(int argc, const char *argv[]) {
   @autoreleasepool {
 
-    NSBundle *bundle = [NSBundle
-        bundleWithPath:@"/System/Library/CoreServices/SystemUIServer.app"];
-    NSArray *extras =
-        [NSArray arrayWithContentsOfFile:[bundle pathForResource:@"Extras.plist"
-                                                          ofType:nil]];
-
-    NSString *ID = @"";
-    for (NSDictionary *extra in extras) {
-      if ([extra[@"path"]
-              isEqualToString:[NSString stringWithUTF8String:argv[1]]]) {
-        ID = extra[@"id"];
-      }
-    }
-
-    NSURL *menu =
-        [NSURL fileURLWithPath:[NSString stringWithUTF8String:argv[1]]];
-
     void *menuExtra = NULL;
     if ((CoreMenuExtraGetMenuExtra(
              (__bridge CFStringRef)[NSString stringWithUTF8String:argv[2]],
              &menuExtra) == 0) &&
         menuExtra) {
+
       CoreMenuExtraRemoveMenuExtra(menuExtra, 0);
+
+      // Can't reload menuExtra nicely (rdar://32445578)
+      system("killall -KILL SystemUIServer");
+
+      NSBundle *bundle = [NSBundle
+          bundleWithPath:@"/System/Library/CoreServices/SystemUIServer.app"];
+      NSArray *extras = [NSArray
+          arrayWithContentsOfFile:[bundle pathForResource:@"Extras.plist"
+                                                   ofType:nil]];
+
+      NSString *ID = @"";
+      for (NSDictionary *extra in extras) {
+        if ([extra[@"path"]
+                isEqualToString:[NSString stringWithUTF8String:argv[1]]]) {
+          ID = extra[@"id"];
+        }
+      }
+
+      NSURL *menu =
+          [NSURL fileURLWithPath:[NSString stringWithUTF8String:argv[1]]];
 
       CoreMenuExtraAddMenuExtra((__bridge CFURLRef)menu, [ID intValue], 0, 0, 0,
                                 0);
 
       return 0;
     }
-    
   }
 
   return 1;

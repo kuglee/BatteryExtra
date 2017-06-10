@@ -45,11 +45,12 @@ struct powerSourceTypeStruct {
 
 @implementation MyBatteryExtra
 
-BOOL *showPerc;
+BOOL * showPerc;
 BOOL showTime;
 BOOL hideWhenCharged;
-NSBundle *myBundle;
-NSUserDefaults *defaults;
+BOOL hideIcon;
+NSBundle * myBundle;
+NSUserDefaults * defaults;
 
 - (NSString *)_statusMenuItemTitleWithSourceState:
     (struct powerSourceTypeStruct)state {
@@ -181,7 +182,7 @@ NSUserDefaults *defaults;
     (struct powerSourceTypeStruct)state {
   NSString *title = ZKOrig(NSString *, state);
 
-  if (state.allSourcesCharged && hideWhenCharged) {
+  if (state.allSourcesCharged && hideWhenCharged && !hideIcon) {
     title = nil;
   } else if (showTime && state.numberOfSourcesPresent > 0) {
     if (state.allSourcesCharged) {
@@ -213,6 +214,7 @@ NSUserDefaults *defaults;
       [[NSUserDefaults alloc] initWithSuiteName:[myBundle bundleIdentifier]];
 
   hideWhenCharged = [defaults boolForKey:@"HideWhenCharged"];
+  hideIcon = [defaults boolForKey:@"HideIcon"];
   showPerc = &ZKHookIvar(self, BOOL, "_showPerc");
   *showPerc = [defaults boolForKey:@"ShowPercent"];
   showTime = [defaults boolForKey:@"ShowTime"];

@@ -45,6 +45,8 @@ NSString *helperPath;
 
   didSwizzleMenuItem =
       _ZKSwizzle(NSClassFromString(@"MyBatteryExtra"), menuExtra);
+  didSwizzleMenuItem &=  ZKSwizzle(MyBatteryViewInMenu, BatteryViewInMenu);
+  
   if (didSwizzleMenuItem)
     NSLog(@"%@: MenuExtra was swizzled successfully!", bundleName);
   else

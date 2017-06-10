@@ -11,6 +11,7 @@
 		5D0EE80C1ED4410800B5DC33 /* ReloadHelper in Resources */ = {isa = PBXBuildFile; fileRef = 5D0EE8031ED440CA00B5DC33 /* ReloadHelper */; };
 		5D6D5E111EC833B600951AB9 /* BatteryExtra.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D5E0B1EC833B600951AB9 /* BatteryExtra.m */; };
 		5D6D5E141EC833B600951AB9 /* ZKSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D5E101EC833B600951AB9 /* ZKSwizzle.m */; };
+		5D8C64EC1EEC8284006F6A66 /* BatteryViewInMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8C64EB1EEC8284006F6A66 /* BatteryViewInMenu.m */; };
 		5DA264211ED32D4000CC7B8D /* loader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA264201ED32D4000CC7B8D /* loader.m */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +45,7 @@
 		5D6D5E0C1EC833B600951AB9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = BatteryExtra/Info.plist; sourceTree = SOURCE_ROOT; };
 		5D6D5E0F1EC833B600951AB9 /* ZKSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKSwizzle.h; sourceTree = "<group>"; };
 		5D6D5E101EC833B600951AB9 /* ZKSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKSwizzle.m; sourceTree = "<group>"; };
+		5D8C64EB1EEC8284006F6A66 /* BatteryViewInMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BatteryViewInMenu.m; path = BatteryExtra/BatteryViewInMenu.m; sourceTree = SOURCE_ROOT; };
 		5DA264201ED32D4000CC7B8D /* loader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = loader.m; path = BatteryExtra/loader.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -88,6 +90,7 @@
 			children = (
 				5D6D5E0E1EC833B600951AB9 /* ZKSwizzle */,
 				5D6D5E0B1EC833B600951AB9 /* BatteryExtra.m */,
+				5D8C64EB1EEC8284006F6A66 /* BatteryViewInMenu.m */,
 				5DA264201ED32D4000CC7B8D /* loader.m */,
 				5D6D5E0C1EC833B600951AB9 /* Info.plist */,
 			);
@@ -224,6 +227,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D8C64EC1EEC8284006F6A66 /* BatteryViewInMenu.m in Sources */,
 				5DA264211ED32D4000CC7B8D /* loader.m in Sources */,
 				5D6D5E141EC833B600951AB9 /* ZKSwizzle.m in Sources */,
 				5D6D5E111EC833B600951AB9 /* BatteryExtra.m in Sources */,

@@ -15,10 +15,10 @@
 @end
 
 @implementation MyBatteryViewInMenu
-extern BOOL * showPerc;
+extern BOOL *showPerc;
 extern BOOL showTime;
 extern BOOL hideIcon;
-float * batteryRectWidth;
+float *batteryRectWidth;
 
 - (id)initWithFrame:(NSRect)arg1 andBundle:(id)arg2 {
   batteryRectWidth = &ZKHookIvar(self, float, "_batteryRectWidth");

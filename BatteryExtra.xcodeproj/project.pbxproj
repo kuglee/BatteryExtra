@@ -13,6 +13,7 @@
 		5D6D5E141EC833B600951AB9 /* ZKSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D5E101EC833B600951AB9 /* ZKSwizzle.m */; };
 		5D8C64EC1EEC8284006F6A66 /* BatteryViewInMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8C64EB1EEC8284006F6A66 /* BatteryViewInMenu.m */; };
 		5DA264211ED32D4000CC7B8D /* loader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA264201ED32D4000CC7B8D /* loader.m */; };
+		5DC105001EED3C4800DED477 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5DC104FD1EED3C4800DED477 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,8 @@
 		5D6D5E101EC833B600951AB9 /* ZKSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKSwizzle.m; sourceTree = "<group>"; };
 		5D8C64EB1EEC8284006F6A66 /* BatteryViewInMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BatteryViewInMenu.m; path = BatteryExtra/BatteryViewInMenu.m; sourceTree = SOURCE_ROOT; };
 		5DA264201ED32D4000CC7B8D /* loader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = loader.m; path = BatteryExtra/loader.m; sourceTree = SOURCE_ROOT; };
+		5DC104FE1EED3C4800DED477 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5DC104FF1EED3C4800DED477 /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				5D0E6F961EB4DA99006ABD96 /* BetterExtra */,
+				5DC104FC1EED3C4800DED477 /* Resources */,
 				5D0EE8041ED440CA00B5DC33 /* ReloadHelper */,
 				5D0E6F951EB4DA99006ABD96 /* Products */,
 			);
@@ -115,6 +119,14 @@
 			);
 			name = ZKSwizzle;
 			path = BatteryExtra/ZKSwizzle;
+			sourceTree = SOURCE_ROOT;
+		};
+		5DC104FC1EED3C4800DED477 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5DC104FD1EED3C4800DED477 /* Localizable.strings */,
+			);
+			path = Resources;
 			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
@@ -183,6 +195,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				hu,
 			);
 			mainGroup = 5D0E6F8B1EB4DA99006ABD96;
 			productRefGroup = 5D0E6F951EB4DA99006ABD96 /* Products */;
@@ -201,6 +214,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D0EE80C1ED4410800B5DC33 /* ReloadHelper in Resources */,
+				5DC105001EED3C4800DED477 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,6 +265,18 @@
 			targetProxy = 5D0EE80A1ED440FD00B5DC33 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		5DC104FD1EED3C4800DED477 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5DC104FE1EED3C4800DED477 /* en */,
+				5DC104FF1EED3C4800DED477 /* hu */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		5D0E6F981EB4DA99006ABD96 /* Debug */ = {

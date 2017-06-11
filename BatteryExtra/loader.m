@@ -25,6 +25,7 @@ NSString *bundleName;
 BOOL didSwizzleMenuItem;
 NSBundle *menuExtraMainBundle;
 NSString *helperPath;
+NSBundle *mainBundle;
 
 // Cannot do reloading directly because of sandboxing
 + (int)reloadMenuExtra {
@@ -56,7 +57,7 @@ NSString *helperPath;
 }
 
 + (void)load {
-  NSBundle *mainBundle = [NSBundle bundleForClass:self];
+  mainBundle = [NSBundle bundleForClass:self];
   bundleName = [[mainBundle infoDictionary] objectForKey:@"CFBundleName"];
   NSString *menuExtraBundlePath =
       [[mainBundle infoDictionary] objectForKey:@"NSMenuExtraBundle"];

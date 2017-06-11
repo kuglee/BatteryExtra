@@ -45,12 +45,14 @@ struct powerSourceTypeStruct {
 
 @implementation MyBatteryExtra
 
-BOOL * showPerc;
+BOOL *showPerc;
 BOOL showTime;
 BOOL hideWhenCharged;
 BOOL hideIcon;
-NSBundle * myBundle;
-NSUserDefaults * defaults;
+NSBundle *myBundle;
+NSUserDefaults *defaults;
+extern NSBundle *mainBundle;
+
 
 - (NSString *)_statusMenuItemTitleWithSourceState:
     (struct powerSourceTypeStruct)state {
@@ -274,6 +276,23 @@ NSUserDefaults * defaults;
     [showPercentMenuItem setState:NSOnState];
   [menu removeItem:showPercentMenuItem];
   [showMenu addItem:showPercentMenuItem];
+  
+  [showMenu addItem:[NSMenuItem separatorItem]];
+  
+  NSLog(@"batteryExtra: %@", [mainBundle localizedStringForKey:@"SHOW_ICON"
+                                                         value:@""
+                                                         table:nil]);
+  NSMenuItem *showIcon = [[NSMenuItem alloc]
+      initWithTitle:[mainBundle localizedStringForKey:@"SHOW_ICON"
+                                              value:@""
+                                              table:nil]
+            action:@selector(selectShowMenuItem:)
+     keyEquivalent:@""];
+  [showIcon setTarget:self];
+  [showIcon setTag:4];
+
+  [showIconOnlyMenuItem setState:NSOnState];
+  [showMenu addItem:showIcon];
 
   [menu insertItem:[NSMenuItem separatorItem]
            atIndex:[[menu itemArray] count] - 1];
@@ -285,29 +304,38 @@ NSUserDefaults * defaults;
 
 - (void)selectShowMenuItem:(id)sender {
   switch ([sender tag]) {
-  case 1:
-    showTime = YES;
-    *showPerc = NO;
-    break;
-  case 2:
-    showTime = NO;
-    *showPerc = YES;
-    break;
-  case 3:
-    showTime = NO;
-    *showPerc = NO;
-    break;
+    case 1:
+      showTime = YES;
+      *showPerc = NO;
+      break;
+    case 2:
+      showTime = NO;
+      *showPerc = YES;
+      break;
+    case 3:
+      showTime = NO;
+      *showPerc = NO;
+      hideIcon = NO;
+      break;
+    case 4:
+      if (!showTime && !*showPerc)
+        *showPerc = YES;
+      hideIcon = !hideIcon;
+      break;
   }
 
   [defaults setBool:showTime forKey:@"ShowTime"];
   [defaults setBool:*showPerc forKey:@"ShowPercent"];
+  [defaults setBool:hideIcon forKey:@"HideIcon"];
 
   [self performSelector:@selector(updateMenu)];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
   if ([item tag] == 3)
-    [item setState:(!showTime && !*showPerc) ? NSOnState : NSOffState];
+    [item setState:(!showTime && !*showPerc && !hideIcon) ? NSOnState : NSOffState];
+  else if ([item tag] == 4)
+    [item setState:!hideIcon];
   else if ([item tag] == 1)
     [item setState:showTime ? NSOnState : NSOffState];
   else if ([item tag] == 2)

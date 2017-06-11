@@ -37,17 +37,5 @@ To change it back run the following command in the command line:
 ```bash
 defaults write com.apple.menuextra.battery.plist HideWhenCharged NO
 ```
----
-To only show the label without the battery run the following command in the command line:
 
-```bash
-defaults write com.apple.menuextra.battery.plist HideIcon YES
-```
-
-To change it back run the following command in the command line:
-
-```bash
-defaults write com.apple.menuextra.battery.plist HideIcon NO
-```
-
-You need to log out then log back in for the changes to take effect.
+You need to restart the system for the changes to take effect.

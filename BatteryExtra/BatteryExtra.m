@@ -279,9 +279,6 @@ extern NSBundle *mainBundle;
   
   [showMenu addItem:[NSMenuItem separatorItem]];
   
-  NSLog(@"batteryExtra: %@", [mainBundle localizedStringForKey:@"SHOW_ICON"
-                                                         value:@""
-                                                         table:nil]);
   NSMenuItem *showIcon = [[NSMenuItem alloc]
       initWithTitle:[mainBundle localizedStringForKey:@"SHOW_ICON"
                                               value:@""

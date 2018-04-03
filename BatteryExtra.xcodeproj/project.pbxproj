@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5D0EE8061ED440CA00B5DC33 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0EE8051ED440CA00B5DC33 /* main.m */; };
 		5D0EE80C1ED4410800B5DC33 /* ReloadHelper in Resources */ = {isa = PBXBuildFile; fileRef = 5D0EE8031ED440CA00B5DC33 /* ReloadHelper */; };
 		5D6D5E111EC833B600951AB9 /* BatteryExtra.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D5E0B1EC833B600951AB9 /* BatteryExtra.m */; };
 		5D6D5E141EC833B600951AB9 /* ZKSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D5E101EC833B600951AB9 /* ZKSwizzle.m */; };
 		5D8C64EC1EEC8284006F6A66 /* BatteryViewInMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8C64EB1EEC8284006F6A66 /* BatteryViewInMenu.m */; };
 		5DA264211ED32D4000CC7B8D /* loader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA264201ED32D4000CC7B8D /* loader.m */; };
 		5DC105001EED3C4800DED477 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5DC104FD1EED3C4800DED477 /* Localizable.strings */; };
+		5DE1551B20743BA6009CBBD9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DE1551A20743BA6009CBBD9 /* main.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,7 +41,6 @@
 /* Begin PBXFileReference section */
 		5D0E6F941EB4DA99006ABD96 /* BatteryExtra.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BatteryExtra.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D0EE8031ED440CA00B5DC33 /* ReloadHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ReloadHelper; sourceTree = BUILT_PRODUCTS_DIR; };
-		5D0EE8051ED440CA00B5DC33 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5D6D5E0B1EC833B600951AB9 /* BatteryExtra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BatteryExtra.m; path = BatteryExtra/BatteryExtra.m; sourceTree = SOURCE_ROOT; };
 		5D6D5E0C1EC833B600951AB9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = BatteryExtra/Info.plist; sourceTree = SOURCE_ROOT; };
 		5D6D5E0F1EC833B600951AB9 /* ZKSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKSwizzle.h; sourceTree = "<group>"; };
@@ -50,6 +49,7 @@
 		5DA264201ED32D4000CC7B8D /* loader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = loader.m; path = BatteryExtra/loader.m; sourceTree = SOURCE_ROOT; };
 		5DC104FE1EED3C4800DED477 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5DC104FF1EED3C4800DED477 /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5DE1551A20743BA6009CBBD9 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ReloadHelper/main.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,7 +105,7 @@
 		5D0EE8041ED440CA00B5DC33 /* ReloadHelper */ = {
 			isa = PBXGroup;
 			children = (
-				5D0EE8051ED440CA00B5DC33 /* main.m */,
+				5DE1551A20743BA6009CBBD9 /* main.m */,
 			);
 			name = ReloadHelper;
 			path = Reloader;
@@ -252,7 +252,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D0EE8061ED440CA00B5DC33 /* main.m in Sources */,
+				5DE1551B20743BA6009CBBD9 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

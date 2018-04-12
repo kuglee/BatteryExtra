@@ -21,11 +21,13 @@
 
 @implementation BatterySUISStartupObject
 
-NSString *bundleName;
-BOOL didSwizzleMenuItem;
-NSBundle *menuExtraMainBundle;
-NSString *helperPath;
 NSBundle *mainBundle;
+NSString *mainBundleName;
+
+NSBundle *menuExtraBundle;
+NSString *menuExtraBundleName;
+
+NSString *helperPath;
 
 // Cannot do reloading directly because of sandboxing
 + (int)reloadMenuExtra {
@@ -33,7 +35,7 @@ NSBundle *mainBundle;
   [task setLaunchPath:helperPath];
 
   [task setArguments:@[
-    [menuExtraMainBundle bundlePath], [menuExtraMainBundle bundleIdentifier]
+    [menuExtraBundle bundlePath], [menuExtraBundle bundleIdentifier]
   ]];
   [task launch];
   [task waitUntilExit];
@@ -42,48 +44,51 @@ NSBundle *mainBundle;
 }
 
 + (BOOL)swizzleMenuExtra:(Class)menuExtra {
-  NSLog(@"%@: Swizzling menuExtra...", bundleName);
+  NSLog(@"%@: Swizzling %@...", mainBundleName, menuExtraBundleName);
 
-  didSwizzleMenuItem =
-      _ZKSwizzle(NSClassFromString(@"MyBatteryExtra"), menuExtra);
-  didSwizzleMenuItem &=  ZKSwizzle(MyBatteryViewInMenu, BatteryViewInMenu);
-  
-  if (didSwizzleMenuItem)
-    NSLog(@"%@: MenuExtra was swizzled successfully!", bundleName);
-  else
-    NSLog(@"%@: Could not swizzle menuExtra!", bundleName);
+  BOOL didSwizzle = _ZKSwizzle(NSClassFromString(@"MyBatteryExtra"), menuExtra);
+  didSwizzle &= ZKSwizzle(MyBatteryViewInMenu, BatteryViewInMenu);
 
-  return didSwizzleMenuItem;
+  if (!didSwizzle) {
+    NSLog(@"%@: Could not swizzle %@!", mainBundleName, menuExtraBundleName);
+    return NO;
+  }
+
+  NSLog(@"%@: %@ was swizzled successfully!", mainBundleName,
+        menuExtraBundleName);
+
+  return YES;
 }
 
 + (void)load {
   mainBundle = [NSBundle bundleForClass:self];
-  bundleName = [[mainBundle infoDictionary] objectForKey:@"CFBundleName"];
+  mainBundleName = [[mainBundle infoDictionary] objectForKey:@"CFBundleName"];
+
   NSString *menuExtraBundlePath =
       [[mainBundle infoDictionary] objectForKey:@"NSMenuExtraBundle"];
-  menuExtraMainBundle = [NSBundle bundleWithPath:menuExtraBundlePath];
+  menuExtraBundle = [NSBundle bundleWithPath:menuExtraBundlePath];
+  menuExtraBundleName =
+      [[menuExtraBundle infoDictionary] objectForKey:@"CFBundleName"];
+
   NSString *helperName =
       [[mainBundle infoDictionary] objectForKey:@"HelperName"];
   helperPath = [mainBundle pathForResource:helperName ofType:nil];
 
-  NSLog(@"%@: Swizzling SystemUIServer...", bundleName);
+  NSLog(@"%@: Swizzling SystemUIServer...", mainBundleName);
 
   BOOL didSwizzle = ZKSwizzle(BatterySUISStartupObject, SUISStartupObject);
-  if (didSwizzle)
-    NSLog(@"%@: SystemUIServer was swizzled successfully!", bundleName);
-  else
-    NSLog(@"%@: Could not swizzle SystemUIServer!", bundleName);
+  if (!didSwizzle) {
+    NSLog(@"%@: Could not swizzle SystemUIServer!", mainBundleName);
+    return;
+  }
 
-  if (didSwizzle && [BatterySUISStartupObject reloadMenuExtra] == 0)
-    NSLog(@"%@: SystemUIServer was reloaded successfully!", bundleName);
-}
+  NSLog(@"%@: SystemUIServer was swizzled successfully!", mainBundleName);
 
-- (id)loadMenuExtra:(id)arg1 withData:(id)arg2 atPosition:(long long)arg3 {
-  if (!didSwizzleMenuItem &&
-      [arg1 principalClass] == [menuExtraMainBundle principalClass])
-    [BatterySUISStartupObject swizzleMenuExtra:[arg1 principalClass]];
+  BOOL didSwizzleMenuItem =
+      [[self class] swizzleMenuExtra:[menuExtraBundle principalClass]];
 
-  return ZKOrig(id, arg1, arg2, arg3);
+  if (didSwizzleMenuItem)
+    [[self class] reloadMenuExtra];
 }
 
 @end

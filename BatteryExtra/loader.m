@@ -30,17 +30,11 @@ NSString *menuExtraBundleName;
 NSString *helperPath;
 
 // Cannot do reloading directly because of sandboxing
-+ (int)reloadMenuExtra {
++ (void)reloadMenuExtra {
   NSTask *task = [[NSTask alloc] init];
   [task setLaunchPath:helperPath];
-
-  [task setArguments:@[
-    [menuExtraBundle bundlePath], [menuExtraBundle bundleIdentifier]
-  ]];
+  [task setArguments:@[ mainBundleName, [menuExtraBundle bundlePath] ]];
   [task launch];
-  [task waitUntilExit];
-
-  return [task terminationStatus];
 }
 
 + (BOOL)swizzleMenuExtra:(Class)menuExtra {

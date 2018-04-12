@@ -1,3 +1,4 @@
+
 /*
  * Copyright (c) 2017 Gábor Librecz <kuglee@gmail.com>
  *
@@ -13,45 +14,71 @@
 int CoreMenuExtraGetMenuExtra(CFStringRef identifier, void *menuExtra);
 int CoreMenuExtraAddMenuExtra(CFURLRef path, int position, int arg2, int arg3,
                               int arg4, int arg5);
-int CoreMenuExtraRemoveMenuExtra(void *menuExtra, int arg1);
+int CoreMenuExtraRemoveMenuExtra(void *menuExtra, int arg2);
+
+void *getMenuExtra(NSString *bundleIdentifier) {
+  void *menuExtra = NULL;
+  CoreMenuExtraGetMenuExtra((__bridge CFStringRef)bundleIdentifier, &menuExtra);
+
+  return menuExtra;
+}
+
+void removeMenuExtra(NSString *bundleIdentifier) {
+  void *menuExtra = getMenuExtra(bundleIdentifier);
+  if (menuExtra)
+    CoreMenuExtraRemoveMenuExtra(menuExtra, 0);
+}
+
+int getMenuExtraBundleID(NSString *bundlePath) {
+  NSBundle *bundle = [NSBundle
+      bundleWithPath:@"/System/Library/CoreServices/SystemUIServer.app"];
+  NSArray *extras =
+      [NSArray arrayWithContentsOfFile:[bundle pathForResource:@"Extras.plist"
+                                                        ofType:nil]];
+  NSString *ID = @"";
+
+  for (NSDictionary *extra in extras) {
+    if ([extra[@"path"] isEqualToString:bundlePath])
+      ID = extra[@"id"];
+  }
+
+  return [ID intValue];
+}
+
+void addMenuExtra(NSString *bundlePath) {
+  NSURL *menu = [NSURL fileURLWithPath:bundlePath];
+  int ID = getMenuExtraBundleID(bundlePath);
+
+  CoreMenuExtraAddMenuExtra((__bridge CFURLRef)menu, ID, 0, 0, 0, 0);
+}
 
 int main(int argc, const char *argv[]) {
   @autoreleasepool {
+    NSString *mainBundleName = [NSString stringWithUTF8String:argv[1]];
+    NSBundle *menuExtraBundle =
+        [NSBundle bundleWithPath:[NSString stringWithUTF8String:argv[2]]];
+    NSString *menuExtraBundleName =
+        [[menuExtraBundle infoDictionary] objectForKey:@"CFBundleName"];
 
-    void *menuExtra = NULL;
-    if ((CoreMenuExtraGetMenuExtra(
-             (__bridge CFStringRef)[NSString stringWithUTF8String:argv[2]],
-             &menuExtra) == 0) &&
-        menuExtra) {
+    void *menuExtra = getMenuExtra([menuExtraBundle bundleIdentifier]);
+    if (menuExtra) {
+      NSLog(@"%@: Reloading %@...", mainBundleName, menuExtraBundleName);
 
-      CoreMenuExtraRemoveMenuExtra(menuExtra, 0);
+      // Battery menu has to be reloaded twice to function properly
+      // (rdar://32445578)
+      removeMenuExtra([menuExtraBundle bundleIdentifier]);
+      addMenuExtra([menuExtraBundle bundlePath]);
+      removeMenuExtra([menuExtraBundle bundleIdentifier]);
 
-      // Can't reload menuExtra nicely (rdar://32445578)
-      system("killall -KILL SystemUIServer");
-
-      NSBundle *bundle = [NSBundle
-          bundleWithPath:@"/System/Library/CoreServices/SystemUIServer.app"];
-      NSArray *extras = [NSArray
-          arrayWithContentsOfFile:[bundle pathForResource:@"Extras.plist"
-                                                   ofType:nil]];
-
-      NSString *ID = @"";
-      for (NSDictionary *extra in extras) {
-        if ([extra[@"path"]
-                isEqualToString:[NSString stringWithUTF8String:argv[1]]]) {
-          ID = extra[@"id"];
-        }
-      }
-
-      NSURL *menu =
-          [NSURL fileURLWithPath:[NSString stringWithUTF8String:argv[1]]];
-
-      CoreMenuExtraAddMenuExtra((__bridge CFURLRef)menu, [ID intValue], 0, 0, 0,
-                                0);
-
-      return 0;
+      // Without this sleep the Battery menu won't function properly
+      // (rdar://32445578)
+      [NSThread sleepForTimeInterval:1];
+      addMenuExtra([menuExtraBundle bundlePath]);
     }
-  }
 
-  return 1;
+    void *newMenuExtra = getMenuExtra([menuExtraBundle bundleIdentifier]);
+    if (newMenuExtra && newMenuExtra != menuExtra)
+      NSLog(@"%@: %@ was reloaded successfully!", mainBundleName,
+            menuExtraBundleName);
+  }
 }

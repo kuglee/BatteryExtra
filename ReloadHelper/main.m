@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2017 Gábor Librecz <kuglee@gmail.com>
  *
@@ -10,75 +9,33 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "ReloadHelper.h"
 
-int CoreMenuExtraGetMenuExtra(CFStringRef identifier, void *menuExtra);
-int CoreMenuExtraAddMenuExtra(CFURLRef path, int position, int arg2, int arg3,
-                              int arg4, int arg5);
-int CoreMenuExtraRemoveMenuExtra(void *menuExtra, int arg2);
+@interface ServiceDelegate : NSObject <NSXPCListenerDelegate>
+@end
 
-void *getMenuExtra(NSString *bundleIdentifier) {
-  void *menuExtra = NULL;
-  CoreMenuExtraGetMenuExtra((__bridge CFStringRef)bundleIdentifier, &menuExtra);
+@implementation ServiceDelegate
 
-  return menuExtra;
+- (BOOL)listener:(NSXPCListener *)listener
+    shouldAcceptNewConnection:(NSXPCConnection *)newConnection {
+  newConnection.exportedInterface =
+      [NSXPCInterface interfaceWithProtocol:@protocol(ReloadHelperProtocol)];
+
+  ReloadHelper *exportedObject = [ReloadHelper new];
+  newConnection.exportedObject = exportedObject;
+
+  [newConnection resume];
+
+  return YES;
 }
 
-void removeMenuExtra(NSString *bundleIdentifier) {
-  void *menuExtra = getMenuExtra(bundleIdentifier);
-  if (menuExtra)
-    CoreMenuExtraRemoveMenuExtra(menuExtra, 0);
-}
-
-int getMenuExtraBundleID(NSString *bundlePath) {
-  NSBundle *bundle = [NSBundle
-      bundleWithPath:@"/System/Library/CoreServices/SystemUIServer.app"];
-  NSArray *extras =
-      [NSArray arrayWithContentsOfFile:[bundle pathForResource:@"Extras.plist"
-                                                        ofType:nil]];
-  NSString *ID = @"";
-
-  for (NSDictionary *extra in extras) {
-    if ([extra[@"path"] isEqualToString:bundlePath])
-      ID = extra[@"id"];
-  }
-
-  return [ID intValue];
-}
-
-void addMenuExtra(NSString *bundlePath) {
-  NSURL *menu = [NSURL fileURLWithPath:bundlePath];
-  int ID = getMenuExtraBundleID(bundlePath);
-
-  CoreMenuExtraAddMenuExtra((__bridge CFURLRef)menu, ID, 0, 0, 0, 0);
-}
+@end
 
 int main(int argc, const char *argv[]) {
-  @autoreleasepool {
-    NSString *mainBundleName = [NSString stringWithUTF8String:argv[1]];
-    NSBundle *menuExtraBundle =
-        [NSBundle bundleWithPath:[NSString stringWithUTF8String:argv[2]]];
-    NSString *menuExtraBundleName =
-        [[menuExtraBundle infoDictionary] objectForKey:@"CFBundleName"];
+  ServiceDelegate *delegate = [ServiceDelegate new];
 
-    void *menuExtra = getMenuExtra([menuExtraBundle bundleIdentifier]);
-    if (menuExtra) {
-      NSLog(@"%@: Reloading %@...", mainBundleName, menuExtraBundleName);
+  NSXPCListener *listener = [NSXPCListener serviceListener];
+  listener.delegate = delegate;
 
-      // Battery menu has to be reloaded twice to function properly
-      // (rdar://32445578)
-      removeMenuExtra([menuExtraBundle bundleIdentifier]);
-      addMenuExtra([menuExtraBundle bundlePath]);
-      removeMenuExtra([menuExtraBundle bundleIdentifier]);
-
-      // Without this sleep the Battery menu won't function properly
-      // (rdar://32445578)
-      [NSThread sleepForTimeInterval:1];
-      addMenuExtra([menuExtraBundle bundlePath]);
-    }
-
-    void *newMenuExtra = getMenuExtra([menuExtraBundle bundleIdentifier]);
-    if (newMenuExtra && newMenuExtra != menuExtra)
-      NSLog(@"%@: %@ was reloaded successfully!", mainBundleName,
-            menuExtraBundleName);
-  }
+  [listener resume];
 }

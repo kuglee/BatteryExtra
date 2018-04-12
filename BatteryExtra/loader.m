@@ -1,3 +1,4 @@
+
 /*
  * Copyright (c) 2017 Gábor Librecz <kuglee@gmail.com>
  *
@@ -9,6 +10,7 @@
  */
 
 #import <AppKit/AppKit.h>
+#import "ReloadHelperProtocol.h"
 #import "ZKSwizzle.h"
 
 @protocol SUISDocklingServerController
@@ -21,68 +23,78 @@
 
 @implementation BatterySUISStartupObject
 
-NSBundle *mainBundle;
-NSString *mainBundleName;
-
-NSBundle *menuExtraBundle;
-NSString *menuExtraBundleName;
-
-NSString *helperPath;
+NSBundle *mainBundle; // BatteryExtra needs this to be global
 
 // Cannot do reloading directly because of sandboxing
-+ (void)reloadMenuExtra {
-  NSTask *task = [[NSTask alloc] init];
-  [task setLaunchPath:helperPath];
-  [task setArguments:@[ mainBundleName, [menuExtraBundle bundlePath] ]];
-  [task launch];
++ (void)reloadMenuExtra:(NSString *)menuExtraBundlePath
+         withCompletion:(void (^)(BOOL success))completionHandler {
+  NSXPCConnection *_connectionToService =
+      [[NSXPCConnection alloc] initWithServiceName:@"com.kuglee.BatteryExtra.ReloadHelper"];
+  _connectionToService.remoteObjectInterface =
+      [NSXPCInterface interfaceWithProtocol:@protocol(ReloadHelperProtocol)];
+  [_connectionToService resume];
+
+  [[_connectionToService remoteObjectProxy]
+      reloadMenuExtraWithPath:menuExtraBundlePath
+               withCompletion:^(BOOL success) {
+                 completionHandler(success);
+               }];
 }
 
-+ (BOOL)swizzleMenuExtra:(Class)menuExtra {
-  NSLog(@"%@: Swizzling %@...", mainBundleName, menuExtraBundleName);
++ (void)swizzleMenuExtra:(Class)menuExtra
+          withCompletion:(void (^)(BOOL success))completionHandler {
 
   BOOL didSwizzle = _ZKSwizzle(NSClassFromString(@"MyBatteryExtra"), menuExtra);
   didSwizzle &= ZKSwizzle(MyBatteryViewInMenu, BatteryViewInMenu);
 
-  if (!didSwizzle) {
-    NSLog(@"%@: Could not swizzle %@!", mainBundleName, menuExtraBundleName);
-    return NO;
-  }
-
-  NSLog(@"%@: %@ was swizzled successfully!", mainBundleName,
-        menuExtraBundleName);
-
-  return YES;
+  if (didSwizzle)
+    completionHandler(YES);
+  else
+    completionHandler(NO);
 }
 
 + (void)load {
   mainBundle = [NSBundle bundleForClass:self];
-  mainBundleName = [[mainBundle infoDictionary] objectForKey:@"CFBundleName"];
+  NSString *mainBundleName =
+      [[mainBundle infoDictionary] objectForKey:@"CFBundleName"];
 
   NSString *menuExtraBundlePath =
       [[mainBundle infoDictionary] objectForKey:@"NSMenuExtraBundle"];
-  menuExtraBundle = [NSBundle bundleWithPath:menuExtraBundlePath];
-  menuExtraBundleName =
+  NSBundle *menuExtraBundle = [NSBundle bundleWithPath:menuExtraBundlePath];
+  NSString *menuExtraBundleName =
       [[menuExtraBundle infoDictionary] objectForKey:@"CFBundleName"];
 
-  NSString *helperName =
-      [[mainBundle infoDictionary] objectForKey:@"HelperName"];
-  helperPath = [mainBundle pathForResource:helperName ofType:nil];
-
   NSLog(@"%@: Swizzling SystemUIServer...", mainBundleName);
-
   BOOL didSwizzle = ZKSwizzle(BatterySUISStartupObject, SUISStartupObject);
   if (!didSwizzle) {
     NSLog(@"%@: Could not swizzle SystemUIServer!", mainBundleName);
     return;
   }
-
   NSLog(@"%@: SystemUIServer was swizzled successfully!", mainBundleName);
 
-  BOOL didSwizzleMenuItem =
-      [[self class] swizzleMenuExtra:[menuExtraBundle principalClass]];
+  NSLog(@"%@: Swizzling %@...", mainBundleName, menuExtraBundleName);
+  [[self class]
+      swizzleMenuExtra:[menuExtraBundle principalClass]
+        withCompletion:^(BOOL success) {
+          if (success) {
+            NSLog(@"%@: %@ was swizzled successfully!!", mainBundleName,
+                  menuExtraBundleName);
 
-  if (didSwizzleMenuItem)
-    [[self class] reloadMenuExtra];
+            NSLog(@"%@: Reloading %@...", mainBundleName, menuExtraBundleName);
+            [[self class] reloadMenuExtra:menuExtraBundlePath
+                           withCompletion:^(BOOL success) {
+                             if (success)
+                               NSLog(@"%@: %@ was reloaded successfully!",
+                                     mainBundleName, menuExtraBundleName);
+
+                             else
+                               NSLog(@"%@: Could not reload %@!",
+                                     mainBundleName, menuExtraBundleName);
+                           }];
+          } else
+            NSLog(@"%@: Could not swizzle %@!", mainBundleName,
+                  menuExtraBundleName);
+        }];
 }
 
 @end

@@ -2,21 +2,30 @@
 SIMBL plugin for the Battery status indicator.
 
 It makes the Battery status indicator work just like how it did back in Mac OS X Lion (10.7).
-It only supports macOS Sierra (10.12).
+
+It supports macOS Sierra (10.12) and above.
 
 Screenshots:
 
   - Show time:
 
-![Show time](https://raw.githubusercontent.com/kuglee/BatteryExtra/master/Screenshots/show_time.png)
+![Show time](Screenshots/show_time.png)
 
   - Show percentage:
 
-![Show percentage](https://raw.githubusercontent.com/kuglee/BatteryExtra/master/Screenshots/show_percentage.png)
+![Show percentage](Screenshots/show_percentage.png)
 
   - Show icon only:
 
-![Show icon only](https://raw.githubusercontent.com/kuglee/BatteryExtra/master/Screenshots/show_icon_only.png)
+![Show icon only](Screenshots/show_icon_only.png)
+
+  - Show time without icon:
+
+![Show time](Screenshots/show_time_without_icon.png)
+
+  - Show percentage without icon:
+
+![Show percentage](Screenshots/show_percentage_without_icon.png)
 
 # How to install
   1. Install [mySIMBL](https://github.com/w0lfschild/mySIMBL).
@@ -26,7 +35,7 @@ Screenshots:
 
 # Preferences
 
-To only show the battery icon without the label when fully charged, run the following command in the command line:
+To only show the battery icon without the label when fully charged, execute the following command in the command line:
 
 ```bash
 defaults write com.apple.menuextra.battery.plist HideWhenCharged YES

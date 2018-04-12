@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017 Gábor Librecz <kuglee@gmail.com>
+ * Copyright © Gábor Librecz <kuglee@gmail.com>
  *
  * This program is free software. It comes without any warranty, to
  * the extent permitted by applicable law. You can redistribute it

@@ -73,7 +73,7 @@
 		5D0E6F8B1EB4DA99006ABD96 = {
 			isa = PBXGroup;
 			children = (
-				5D0E6F961EB4DA99006ABD96 /* BetterExtra */,
+				5D0E6F961EB4DA99006ABD96 /* BatteryExtra */,
 				5DC104FC1EED3C4800DED477 /* Resources */,
 				5D0EE8041ED440CA00B5DC33 /* ReloadHelper */,
 				5D0E6F951EB4DA99006ABD96 /* Products */,
@@ -89,7 +89,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5D0E6F961EB4DA99006ABD96 /* BetterExtra */ = {
+		5D0E6F961EB4DA99006ABD96 /* BatteryExtra */ = {
 			isa = PBXGroup;
 			children = (
 				5D6D5E0E1EC833B600951AB9 /* ZKSwizzle */,
@@ -98,8 +98,7 @@
 				5DA264201ED32D4000CC7B8D /* loader.m */,
 				5D6D5E0C1EC833B600951AB9 /* Info.plist */,
 			);
-			name = BetterExtra;
-			path = BetterBattery;
+			path = BatteryExtra;
 			sourceTree = "<group>";
 		};
 		5D0EE8041ED440CA00B5DC33 /* ReloadHelper */ = {
@@ -107,8 +106,7 @@
 			children = (
 				5DE1551A20743BA6009CBBD9 /* main.m */,
 			);
-			name = ReloadHelper;
-			path = Reloader;
+			path = ReloadHelper;
 			sourceTree = "<group>";
 		};
 		5D6D5E0E1EC833B600951AB9 /* ZKSwizzle */ = {

@@ -18,8 +18,6 @@
 	<string>1.2</string>
 	<key>CFBundleVersion</key>
 	<string>1.2</string>
-	<key>HelperName</key>
-	<string>ReloadHelper</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2017. Librecz Gábor. All rights reserved.</string>
 	<key>NSMenuExtraBundle</key>

@@ -1,5 +1,5 @@
 /*
- * Copyright © Gábor Librecz <kuglee@gmail.com>
+ * Copyright (c) Gábor Librecz <kuglee@gmail.com>
  *
  * This program is free software. It comes without any warranty, to
  * the extent permitted by applicable law. You can redistribute it
@@ -34,6 +34,7 @@ struct powerSourceTypeStruct {
 @interface NSMenuExtra : NSStatusItem
 @end
 
+/// Readds code removed by Apple.
 @implementation NSMenuExtra
 @end
 
@@ -47,12 +48,11 @@ struct powerSourceTypeStruct {
 
 BOOL *showPerc;
 BOOL showTime;
-BOOL hideWhenCharged;
+BOOL hideLabelWhenCharged;
 BOOL hideIcon;
 NSBundle *myBundle;
-NSUserDefaults *defaults;
-extern NSBundle *mainBundle;
-
+NSUserDefaults *userDefaults;
+extern NSBundle *pluginMainBundle;
 
 - (NSString *)_statusMenuItemTitleWithSourceState:
     (struct powerSourceTypeStruct)state {
@@ -184,7 +184,7 @@ extern NSBundle *mainBundle;
     (struct powerSourceTypeStruct)state {
   NSString *title = ZKOrig(NSString *, state);
 
-  if (state.allSourcesCharged && hideWhenCharged && !hideIcon) {
+  if (state.allSourcesCharged && hideLabelWhenCharged && !hideIcon) {
     title = nil;
   } else if (showTime && state.numberOfSourcesPresent > 0) {
     if (state.allSourcesCharged) {
@@ -212,18 +212,18 @@ extern NSBundle *mainBundle;
 
 - (void)delayedInitBatteryMenu {
   myBundle = ZKHookIvar(self, NSBundle *, "_mybundle");
-  defaults =
-      [[NSUserDefaults alloc] initWithSuiteName:[myBundle bundleIdentifier]];
+  userDefaults =
+      [[NSUserDefaults alloc] initWithSuiteName:myBundle.bundleIdentifier];
 
-  hideWhenCharged = [defaults boolForKey:@"HideWhenCharged"];
-  hideIcon = [defaults boolForKey:@"HideIcon"];
+  hideLabelWhenCharged = [userDefaults boolForKey:@"HideLabelWhenCharged"];
+  hideIcon = [userDefaults boolForKey:@"HideIcon"];
   showPerc = &ZKHookIvar(self, BOOL, "_showPerc");
-  *showPerc = [defaults boolForKey:@"ShowPercent"];
-  showTime = [defaults boolForKey:@"ShowTime"];
+  *showPerc = [userDefaults boolForKey:@"ShowPercent"];
+  showTime = [userDefaults boolForKey:@"ShowTime"];
 
   if (showTime && *showPerc) {
     *showPerc = NO;
-    [defaults setBool:*showPerc forKey:@"ShowPercent"];
+    [userDefaults setBool:*showPerc forKey:@"ShowPercent"];
   }
 
   ZKOrig(void);
@@ -237,7 +237,7 @@ extern NSBundle *mainBundle;
                                               table:nil]
              action:nil
       keyEquivalent:@""];
-  [menu insertItem:showMenuItem atIndex:[[menu itemArray] count] - 1];
+  [menu insertItem:showMenuItem atIndex:menu.itemArray.count - 1];
 
   NSMenu *showMenu = [[NSMenu alloc] initWithTitle:@""];
   [menu setSubmenu:showMenu forItem:showMenuItem];
@@ -247,10 +247,10 @@ extern NSBundle *mainBundle;
                                               table:nil]
              action:@selector(selectShowMenuItem:)
       keyEquivalent:@""];
-  [showIconOnlyMenuItem setTarget:self];
-  [showIconOnlyMenuItem setTag:3];
+  showIconOnlyMenuItem.target = self;
+  showIconOnlyMenuItem.tag = 3;
   if (!*showPerc && !showTime)
-    [showIconOnlyMenuItem setState:NSOnState];
+    showIconOnlyMenuItem.state = NSOnState;
   [showMenu addItem:showIconOnlyMenuItem];
 
   NSMenuItem *showTimeMenuItem = [[NSMenuItem alloc]
@@ -259,84 +259,91 @@ extern NSBundle *mainBundle;
                                               table:nil]
              action:@selector(selectShowMenuItem:)
       keyEquivalent:@""];
-  [showTimeMenuItem setTarget:self];
-  [showTimeMenuItem setTag:1];
+  showTimeMenuItem.target = self;
+  showTimeMenuItem.tag = 1;
   if (showTime)
-    [showTimeMenuItem setState:NSOnState];
+    showTimeMenuItem.state = NSOnState;
   [showMenu addItem:showTimeMenuItem];
 
   NSMenuItem *showPercentMenuItem =
       ZKHookIvar(self, NSMenuItem *, "_showPercentMenuItem");
-  [showPercentMenuItem setTag:2];
-  [showPercentMenuItem
-      setTitle:[myBundle localizedStringForKey:@"DISPLAY_PERCENT"
-                                         value:@""
-                                         table:nil]];
+  showPercentMenuItem.tag = 2;
+  showPercentMenuItem.title =
+      [myBundle localizedStringForKey:@"DISPLAY_PERCENT" value:@"" table:nil];
   if (*showPerc)
-    [showPercentMenuItem setState:NSOnState];
+    showPercentMenuItem.state = NSOnState;
   [menu removeItem:showPercentMenuItem];
   [showMenu addItem:showPercentMenuItem];
-  
-  [showMenu addItem:[NSMenuItem separatorItem]];
-  
-  NSMenuItem *showIcon = [[NSMenuItem alloc]
-      initWithTitle:[mainBundle localizedStringForKey:@"SHOW_ICON"
-                                              value:@""
-                                              table:nil]
-            action:@selector(selectShowMenuItem:)
-     keyEquivalent:@""];
-  [showIcon setTarget:self];
-  [showIcon setTag:4];
 
-  [showIconOnlyMenuItem setState:NSOnState];
+  [showMenu addItem:NSMenuItem.separatorItem];
+
+  NSMenuItem *showIcon = [[NSMenuItem alloc]
+      initWithTitle:[pluginMainBundle localizedStringForKey:@"SHOW_ICON"
+                                                      value:@""
+                                                      table:nil]
+             action:@selector(selectShowMenuItem:)
+      keyEquivalent:@""];
+  showIcon.target = self;
+  showIcon.tag = 4;
+
+  showIconOnlyMenuItem.state = NSOnState;
   [showMenu addItem:showIcon];
 
-  [menu insertItem:[NSMenuItem separatorItem]
-           atIndex:[[menu itemArray] count] - 1];
+  [menu insertItem:NSMenuItem.separatorItem atIndex:menu.itemArray.count - 1];
 
   [self performSelector:@selector(updateMenu)];
 
   return menu;
 }
 
-- (void)selectShowMenuItem:(id)sender {
-  switch ([sender tag]) {
-    case 1:
-      showTime = YES;
-      *showPerc = NO;
-      break;
-    case 2:
-      showTime = NO;
+- (void)selectShowMenuItem:(NSMenuItem *)sender {
+  switch (sender.tag) {
+  case 1:
+    showTime = YES;
+    *showPerc = NO;
+    break;
+  case 2:
+    showTime = NO;
+    *showPerc = YES;
+    break;
+  case 3:
+    showTime = NO;
+    *showPerc = NO;
+    hideIcon = NO;
+    break;
+  case 4:
+    if (!showTime && !*showPerc)
       *showPerc = YES;
-      break;
-    case 3:
-      showTime = NO;
-      *showPerc = NO;
-      hideIcon = NO;
-      break;
-    case 4:
-      if (!showTime && !*showPerc)
-        *showPerc = YES;
-      hideIcon = !hideIcon;
-      break;
+
+    hideIcon = !hideIcon;
+    break;
   }
 
-  [defaults setBool:showTime forKey:@"ShowTime"];
-  [defaults setBool:*showPerc forKey:@"ShowPercent"];
-  [defaults setBool:hideIcon forKey:@"HideIcon"];
+  [userDefaults setBool:showTime forKey:@"ShowTime"];
+  [userDefaults setBool:*showPerc forKey:@"ShowPercent"];
+  [userDefaults setBool:hideIcon forKey:@"HideIcon"];
 
   [self performSelector:@selector(updateMenu)];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
-  if ([item tag] == 3)
-    [item setState:(!showTime && !*showPerc && !hideIcon) ? NSOnState : NSOffState];
-  else if ([item tag] == 4)
-    [item setState:!hideIcon];
-  else if ([item tag] == 1)
-    [item setState:showTime ? NSOnState : NSOffState];
-  else if ([item tag] == 2)
-    [item setState:*showPerc ? NSOnState : NSOffState];
+  switch (item.tag) {
+  case 1:
+    item.state = showTime ? NSOnState : NSOffState;
+    break;
+  case 2:
+    item.state = *showPerc ? NSOnState : NSOffState;
+    break;
+  case 3:
+    item.state =
+        (!showTime && !*showPerc && !hideIcon) ? NSOnState : NSOffState;
+    break;
+  case 4:
+    item.state = !hideIcon;
+    break;
+  default:
+    break;
+  }
 
   return YES;
 }

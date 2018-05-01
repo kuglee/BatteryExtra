@@ -1,5 +1,5 @@
 /*
- * Copyright © Gábor Librecz <kuglee@gmail.com>
+ * Copyright (c) Gábor Librecz <kuglee@gmail.com>
  *
  * This program is free software. It comes without any warranty, to
  * the extent permitted by applicable law. You can redistribute it
@@ -15,21 +15,20 @@
 @end
 
 @implementation MyBatteryViewInMenu
-extern BOOL *showPerc;
-extern BOOL showTime;
 extern BOOL hideIcon;
 float *batteryRectWidth;
 
 - (id)initWithFrame:(NSRect)arg1 andBundle:(id)arg2 {
   batteryRectWidth = &ZKHookIvar(self, float, "_batteryRectWidth");
-  
+
   return ZKOrig(id, arg1, arg2);
 }
 
 - (void)updateInfo {
   ZKOrig(void);
-  
-  if (hideIcon && (showTime || *showPerc))
+
+  // Changes the width of the battery icon in order to hide it.
+  if (hideIcon)
     *batteryRectWidth = 0;
 }
 

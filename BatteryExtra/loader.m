@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) Gábor Librecz <kuglee@gmail.com>
  *
@@ -10,91 +9,122 @@
  */
 
 #import <AppKit/AppKit.h>
-#import "ReloadHelperProtocol.h"
+#import <os/log.h>
+#import "ReloadHelper.h"
 #import "ZKSwizzle.h"
 
-@protocol SUISDocklingServerController
+NSBundle *pluginMainBundle; // BatteryExtra needs this to be global
+
+@interface Loader : NSObject
 @end
 
-@interface BatterySUISStartupObject
-    : NSObject <SUISDocklingServerController, NSApplicationDelegate,
-                NSFileManagerDelegate>
-@end
-
-@implementation BatterySUISStartupObject
-
-NSBundle *mainBundle; // BatteryExtra needs this to be global
+@implementation Loader
+os_log_t pluginLog;
 
 // Cannot do reloading directly because of sandboxing
-+ (void)reloadMenuExtra:(NSString *)menuExtraBundlePath
-         withCompletion:(void (^)(BOOL success))completionHandler {
-  NSXPCConnection *_connectionToService =
-      [[NSXPCConnection alloc] initWithServiceName:@"com.kuglee.BatteryExtra.ReloadHelper"];
-  _connectionToService.remoteObjectInterface =
++ (void)reloadMenuExtraIfVisibleOnMenuBarWithBundlePath:
+    (NSString *)menuExtraBundlePath {
+  NSXPCConnection *connectionToReioadHeiperService = [[NSXPCConnection alloc]
+      initWithServiceName:@"com.kuglee.batteryextra.reloadhelper"];
+  connectionToReioadHeiperService.remoteObjectInterface =
       [NSXPCInterface interfaceWithProtocol:@protocol(ReloadHelperProtocol)];
-  [_connectionToService resume];
+  [connectionToReioadHeiperService resume];
 
-  [[_connectionToService remoteObjectProxy]
-      reloadMenuExtraWithPath:menuExtraBundlePath
-               withCompletion:^(BOOL success) {
-                 completionHandler(success);
-               }];
+  ReloadHelper *reioadHelperService =
+      connectionToReioadHeiperService.remoteObjectProxy;
+
+  [reioadHelperService
+      getMenuExtraWithBundlePath:menuExtraBundlePath
+                       withReply:^(BOOL success) {
+                         if (success) {
+                           os_log(pluginLog, "Reloading Menu Extra...");
+                           [[connectionToReioadHeiperService remoteObjectProxy]
+                               reloadMenuExtraWithBundlePath:menuExtraBundlePath
+                                                   withReply:^(BOOL success) {
+                                                     if (success)
+                                                       os_log(
+                                                           pluginLog,
+                                                           "The Menu Extra "
+                                                           "\"%{public}@ \" "
+                                                           "was reloaded "
+                                                           "successfully!",
+                                                           menuExtraBundlePath);
+                                                     else
+                                                       os_log_error(
+                                                           pluginLog,
+                                                           "Could not reload "
+                                                           "Menu Extra "
+                                                           "\"%{public}@\"!",
+                                                           menuExtraBundlePath);
+
+                                                     [connectionToReioadHeiperService
+                                                         invalidate];
+                                                   }];
+                         } else
+                           [connectionToReioadHeiperService invalidate];
+                       }];
 }
 
-+ (void)swizzleMenuExtra:(Class)menuExtra
-          withCompletion:(void (^)(BOOL success))completionHandler {
++ (BOOL)loadMenuExtraBundleIfNotLoadedWithPath:(NSString *)menuExtraBundlePath {
+  BOOL isMenuExtraLoaded = NO;
 
-  BOOL didSwizzle = _ZKSwizzle(NSClassFromString(@"MyBatteryExtra"), menuExtra);
-  didSwizzle &= ZKSwizzle(MyBatteryViewInMenu, BatteryViewInMenu);
+  for (NSBundle *bundle in NSBundle.allBundles) {
+    if ([bundle.bundlePath isEqualToString:menuExtraBundlePath]) {
+      isMenuExtraLoaded = YES;
+      break;
+    }
+  }
 
-  if (didSwizzle)
-    completionHandler(YES);
-  else
-    completionHandler(NO);
+  // Load the Menu Extra manually if it's not already loaded to be able to
+  // swizzle it.
+  if (!isMenuExtraLoaded) {
+    NSBundle *menuExtraBundle = [NSBundle bundleWithPath:menuExtraBundlePath];
+    return [menuExtraBundle load];
+  }
+
+  return YES;
+}
+
++ (BOOL)swizzle {
+  BOOL didSwizzle = ZKSwizzle(MyBatteryExtra, BatteryExtra) &&
+                    ZKSwizzle(MyBatteryViewInMenu, BatteryViewInMenu);
+
+  return didSwizzle;
 }
 
 + (void)load {
-  mainBundle = [NSBundle bundleForClass:self];
-  NSString *mainBundleName =
-      [[mainBundle infoDictionary] objectForKey:@"CFBundleName"];
+  pluginMainBundle = [NSBundle bundleForClass:self];
+  pluginLog = os_log_create(pluginMainBundle.bundleIdentifier.UTF8String,
+                            "SIMBLPlugin");
 
+  os_log(pluginLog, "Swizzling \"%@\"...",
+         NSBundle.mainBundle.bundleIdentifier);
+
+  // The bundle path of the Menu Extra is stored in the Info.plist of the
+  // plugin.
   NSString *menuExtraBundlePath =
-      [[mainBundle infoDictionary] objectForKey:@"NSMenuExtraBundle"];
-  NSBundle *menuExtraBundle = [NSBundle bundleWithPath:menuExtraBundlePath];
-  NSString *menuExtraBundleName =
-      [[menuExtraBundle infoDictionary] objectForKey:@"CFBundleName"];
+      [[pluginMainBundle infoDictionary] objectForKey:@"NSMenuExtraBundle"];
 
-  NSLog(@"%@: Swizzling SystemUIServer...", mainBundleName);
-  BOOL didSwizzle = ZKSwizzle(BatterySUISStartupObject, SUISStartupObject);
+  BOOL menuExtraDidLoad =
+      [self loadMenuExtraBundleIfNotLoadedWithPath:menuExtraBundlePath];
+
+  if (!menuExtraDidLoad) {
+    os_log(pluginLog, "Could not load bundle \"%{public}@\"! Quitting...",
+           menuExtraBundlePath);
+  }
+
+  BOOL didSwizzle = [self swizzle];
+
   if (!didSwizzle) {
-    NSLog(@"%@: Could not swizzle SystemUIServer!", mainBundleName);
+    os_log_error(pluginLog, "Could not swizzle \"%@\"!",
+                 NSBundle.mainBundle.bundleIdentifier);
     return;
   }
-  NSLog(@"%@: SystemUIServer was swizzled successfully!", mainBundleName);
 
-  NSLog(@"%@: Swizzling %@...", mainBundleName, menuExtraBundleName);
-  [[self class]
-      swizzleMenuExtra:[menuExtraBundle principalClass]
-        withCompletion:^(BOOL success) {
-          if (success) {
-            NSLog(@"%@: %@ was swizzled successfully!!", mainBundleName,
-                  menuExtraBundleName);
+  os_log(pluginLog, "\"%@\" was swizzled successfully!",
+         NSBundle.mainBundle.bundleIdentifier);
 
-            NSLog(@"%@: Reloading %@...", mainBundleName, menuExtraBundleName);
-            [[self class] reloadMenuExtra:menuExtraBundlePath
-                           withCompletion:^(BOOL success) {
-                             if (success)
-                               NSLog(@"%@: %@ was reloaded successfully!",
-                                     mainBundleName, menuExtraBundleName);
-
-                             else
-                               NSLog(@"%@: Could not reload %@!",
-                                     mainBundleName, menuExtraBundleName);
-                           }];
-          } else
-            NSLog(@"%@: Could not swizzle %@!", mainBundleName,
-                  menuExtraBundleName);
-        }];
+  [self reloadMenuExtraIfVisibleOnMenuBarWithBundlePath:menuExtraBundlePath];
 }
 
 @end

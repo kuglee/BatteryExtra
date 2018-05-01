@@ -9,74 +9,69 @@
  */
 
 #import "ReloadHelper.h"
+#import "CoreMenu.h"
 
-int CoreMenuExtraGetMenuExtra(CFStringRef identifier, void *menuExtra);
-int CoreMenuExtraAddMenuExtra(CFURLRef path, int position, int arg2, int arg3,
-                              int arg4, int arg5);
-int CoreMenuExtraRemoveMenuExtra(void *menuExtra, int arg2);
-
-void *getMenuExtra(NSString *bundleIdentifier) {
-  void *menuExtra = NULL;
-  CoreMenuExtraGetMenuExtra((__bridge CFStringRef)bundleIdentifier, &menuExtra);
-
-  return menuExtra;
-}
-
-void removeMenuExtra(NSString *bundleIdentifier) {
-  void *menuExtra = getMenuExtra(bundleIdentifier);
-  if (menuExtra)
-    CoreMenuExtraRemoveMenuExtra(menuExtra, 0);
-}
-
-int getMenuExtraBundleID(NSString *bundlePath) {
-  NSBundle *bundle = [NSBundle
+int getDefaultPositionOnMenuBarOfMenuExtraBundle(NSBundle *menuExtraBundle) {
+  // The default positions of the built-in Menu Extras are stored in the
+  // Extras.plist of the SystemUiServer app.
+  NSBundle *systemUIServerBundle = [NSBundle
       bundleWithPath:@"/System/Library/CoreServices/SystemUIServer.app"];
-  NSArray *extras =
-      [NSArray arrayWithContentsOfFile:[bundle pathForResource:@"Extras.plist"
-                                                        ofType:nil]];
-  NSString *ID = @"";
+  NSArray *extrasArray =
+      [NSArray arrayWithContentsOfFile:[systemUIServerBundle
+                                           pathForResource:@"Extras.plist"
+                                                    ofType:nil]];
 
-  for (NSDictionary *extra in extras) {
-    if ([extra[@"path"] isEqualToString:bundlePath])
-      ID = extra[@"id"];
+  int position = -1;
+
+  for (NSDictionary *extraDict in extrasArray) {
+    if ([extraDict[@"path"] isEqualToString:menuExtraBundle.bundlePath]) {
+      // The "id" of the menu extra is used as the position.
+      position = [extraDict[@"id"] intValue];
+    }
   }
 
-  return [ID intValue];
-}
-
-void addMenuExtra(NSString *bundlePath) {
-  NSURL *menu = [NSURL fileURLWithPath:bundlePath];
-  int ID = getMenuExtraBundleID(bundlePath);
-
-  CoreMenuExtraAddMenuExtra((__bridge CFURLRef)menu, ID, 0, 0, 0, 0);
+  return position;
 }
 
 @implementation ReloadHelper
-
-- (void)reloadMenuExtraWithPath:(NSString *)menuExtraBundlePath
-                 withCompletion:(void (^)(BOOL success))completionHandler {
+- (void)getMenuExtraWithBundlePath:(NSString *)menuExtraBundlePath
+                         withReply:(void (^)(BOOL))reply {
   NSBundle *menuExtraBundle = [NSBundle bundleWithPath:menuExtraBundlePath];
 
-  void *menuExtra = getMenuExtra([menuExtraBundle bundleIdentifier]);
-  if (menuExtra) {
-
-    // Battery menu has to be reloaded twice to function properly
-    // (rdar://32445578)
-    removeMenuExtra([menuExtraBundle bundleIdentifier]);
-    addMenuExtra([menuExtraBundle bundlePath]);
-    removeMenuExtra([menuExtraBundle bundleIdentifier]);
-
-    // Without this sleep the Battery menu won't function properly
-    // (rdar://32445578)
-    [NSThread sleepForTimeInterval:1];
-    addMenuExtra([menuExtraBundle bundlePath]);
+  if ([CoreMenu getMenuExtra:menuExtraBundle] == nil) {
+    reply(NO);
+    return;
   }
 
-  void *newMenuExtra = getMenuExtra([menuExtraBundle bundleIdentifier]);
-  if (newMenuExtra && newMenuExtra != menuExtra)
-    completionHandler(YES);
-  else
-    completionHandler(NO);
+  reply(YES);
+}
+
+- (void)reloadMenuExtraWithBundlePath:(NSString *)menuExtraBundlePath
+                            withReply:(void (^)(BOOL))reply {
+
+  NSBundle *menuExtraBundle = [NSBundle bundleWithPath:menuExtraBundlePath];
+
+  int position = getDefaultPositionOnMenuBarOfMenuExtraBundle(menuExtraBundle);
+  if (position == -1) {
+    reply(NO);
+    return;
+  }
+
+  // Battery menu extra has to be reloaded twice to function properly.
+  // See rdar://32445578 for more information.
+  BOOL success = [CoreMenu removeMenuExtra:menuExtraBundle] &&
+                 [CoreMenu addMenuExtra:menuExtraBundle atPosition:position] &&
+                 [CoreMenu removeMenuExtra:menuExtraBundle];
+
+  if (success) {
+    // Sleep is needed because if the Battery menu is added too fast it won't
+    // function properly.
+    // See rdar://32445578 for more information.
+    [NSThread sleepForTimeInterval:1];
+    success = [CoreMenu addMenuExtra:menuExtraBundle atPosition:position];
+  }
+
+  reply(success);
 }
 
 @end

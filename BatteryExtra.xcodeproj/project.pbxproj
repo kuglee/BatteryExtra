@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5D4BA43120990CBA006B537D /* CoreMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4BA42F20990CBA006B537D /* CoreMenu.m */; };
 		5D6D5E111EC833B600951AB9 /* BatteryExtra.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D5E0B1EC833B600951AB9 /* BatteryExtra.m */; };
 		5D6D5E141EC833B600951AB9 /* ZKSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D5E101EC833B600951AB9 /* ZKSwizzle.m */; };
 		5D79B176207F446E006F9B0A /* ReloadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D79B175207F446E006F9B0A /* ReloadHelper.m */; };
@@ -42,12 +43,14 @@
 
 /* Begin PBXFileReference section */
 		5D0E6F941EB4DA99006ABD96 /* BatteryExtra.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BatteryExtra.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D4BA42F20990CBA006B537D /* CoreMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreMenu.m; sourceTree = "<group>"; };
+		5D4BA43020990CBA006B537D /* CoreMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreMenu.h; sourceTree = "<group>"; };
+		5D4BA432209912AA006B537D /* ReloadHelperProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReloadHelperProtocol.h; sourceTree = "<group>"; };
 		5D6D5E0B1EC833B600951AB9 /* BatteryExtra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BatteryExtra.m; path = BatteryExtra/BatteryExtra.m; sourceTree = SOURCE_ROOT; };
 		5D6D5E0C1EC833B600951AB9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = BatteryExtra/Info.plist; sourceTree = SOURCE_ROOT; };
 		5D6D5E0F1EC833B600951AB9 /* ZKSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKSwizzle.h; sourceTree = "<group>"; };
 		5D6D5E101EC833B600951AB9 /* ZKSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKSwizzle.m; sourceTree = "<group>"; };
 		5D79B171207F446E006F9B0A /* com.kuglee.BatteryExtra.ReloadHelper.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = com.kuglee.BatteryExtra.ReloadHelper.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
-		5D79B173207F446E006F9B0A /* ReloadHelperProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReloadHelperProtocol.h; sourceTree = "<group>"; };
 		5D79B174207F446E006F9B0A /* ReloadHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReloadHelper.h; sourceTree = "<group>"; };
 		5D79B175207F446E006F9B0A /* ReloadHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReloadHelper.m; sourceTree = "<group>"; };
 		5D79B177207F446E006F9B0A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -99,9 +102,9 @@
 			isa = PBXGroup;
 			children = (
 				5D6D5E0E1EC833B600951AB9 /* ZKSwizzle */,
+				5DA264201ED32D4000CC7B8D /* loader.m */,
 				5D6D5E0B1EC833B600951AB9 /* BatteryExtra.m */,
 				5D8C64EB1EEC8284006F6A66 /* BatteryViewInMenu.m */,
-				5DA264201ED32D4000CC7B8D /* loader.m */,
 				5D6D5E0C1EC833B600951AB9 /* Info.plist */,
 			);
 			path = BatteryExtra;
@@ -120,7 +123,9 @@
 		5D79B172207F446E006F9B0A /* ReloadHelper */ = {
 			isa = PBXGroup;
 			children = (
-				5D79B173207F446E006F9B0A /* ReloadHelperProtocol.h */,
+				5D4BA43020990CBA006B537D /* CoreMenu.h */,
+				5D4BA42F20990CBA006B537D /* CoreMenu.m */,
+				5D4BA432209912AA006B537D /* ReloadHelperProtocol.h */,
 				5D79B174207F446E006F9B0A /* ReloadHelper.h */,
 				5D79B175207F446E006F9B0A /* ReloadHelper.m */,
 				5D79B177207F446E006F9B0A /* main.m */,
@@ -147,7 +152,6 @@
 				5D0E6F901EB4DA99006ABD96 /* Sources */,
 				5D0E6F911EB4DA99006ABD96 /* Frameworks */,
 				5D0E6F921EB4DA99006ABD96 /* Resources */,
-				5D63805F1EB5C63C00C53CD8 /* ShellScript */,
 				5D79B17F207F44A6006F9B0A /* CopyFiles */,
 			);
 			buildRules = (
@@ -235,22 +239,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		5D63805F1EB5C63C00C53CD8 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cp -Rf \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_NAME}.bundle\" /Library/Application\\ Support/SIMBL/Plugins\nkillall -KILL \"SystemUIServer\"";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		5D0E6F901EB4DA99006ABD96 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -269,6 +257,7 @@
 			files = (
 				5D79B178207F446E006F9B0A /* main.m in Sources */,
 				5D79B176207F446E006F9B0A /* ReloadHelper.m in Sources */,
+				5D4BA43120990CBA006B537D /* CoreMenu.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,7 +383,7 @@
 				DEVELOPMENT_TEAM = C89KNBM28S;
 				INFOPLIST_FILE = "$(SRCROOT)/BatteryExtra/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kuglee.BatteryExtra;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuglee.batteryextra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -410,7 +399,7 @@
 				DEVELOPMENT_TEAM = C89KNBM28S;
 				INFOPLIST_FILE = "$(SRCROOT)/BatteryExtra/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kuglee.BatteryExtra;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuglee.batteryextra;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -439,7 +428,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = ReloadHelper/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kuglee.BatteryExtra.ReloadHelper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuglee.batteryextra.reloadhelper;
 				PRODUCT_NAME = com.kuglee.BatteryExtra.ReloadHelper;
 				SKIP_INSTALL = YES;
 			};
@@ -466,7 +455,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = ReloadHelper/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kuglee.BatteryExtra.ReloadHelper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuglee.batteryextra.reloadhelper;
 				PRODUCT_NAME = com.kuglee.BatteryExtra.ReloadHelper;
 				SKIP_INSTALL = YES;
 			};

@@ -11,6 +11,8 @@
 #import <Foundation/Foundation.h>
 
 @protocol ReloadHelperProtocol
-- (void)reloadMenuExtraWithPath:(NSString *)menuExtraBundlePath
-                 withCompletion:(void (^)(BOOL success))completionHandler;
+- (void)getMenuExtraWithBundlePath:(NSString *)menuExtraBundlePath
+                 withReply:(void (^)(BOOL))reply;
+- (void)reloadMenuExtraWithBundlePath:(NSString *)menuExtraBundlePath
+                            withReply:(void (^)(BOOL))reply;
 @end

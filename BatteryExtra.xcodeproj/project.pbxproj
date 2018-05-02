@@ -1,0 +1,547 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5D79B180207F44B0006F9B0A /* com.kuglee.BatteryExtra.ReloadHelper.xpc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D79B171207F446E006F9B0A /* com.kuglee.BatteryExtra.ReloadHelper.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5D8FAB692087B604002885F6 /* Swizzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8FAB662087B604002885F6 /* Swizzle.swift */; };
+		5D8FAB6A2087B604002885F6 /* BatteryExtra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8FAB672087B604002885F6 /* BatteryExtra.swift */; };
+		5D8FAB6B2087B604002885F6 /* Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8FAB682087B604002885F6 /* Loader.swift */; };
+		5D8FAB6D2088EF20002885F6 /* BatteryViewInMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8FAB6C2088EF20002885F6 /* BatteryViewInMenu.swift */; };
+		5D929899208A8AAC008CD13D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D929898208A8AAC008CD13D /* main.swift */; };
+		5D92989B208A8B8D008CD13D /* ReloadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D92989A208A8B8D008CD13D /* ReloadHelper.swift */; };
+		5D9298A7208A9AAD008CD13D /* ReloadHelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9298A6208A9AAD008CD13D /* ReloadHelperProtocol.swift */; };
+		5D9298A8208A9AAD008CD13D /* ReloadHelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9298A6208A9AAD008CD13D /* ReloadHelperProtocol.swift */; };
+		5DC05F76208F87260062B1D6 /* loader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC05F75208F87250062B1D6 /* loader.m */; };
+		5DC05FB120923CE00062B1D6 /* CoreMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC05FB020923CE00062B1D6 /* CoreMenu.swift */; };
+		5DC105001EED3C4800DED477 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5DC104FD1EED3C4800DED477 /* Localizable.strings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5D79B17D207F44A3006F9B0A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5D0E6F8C1EB4DA99006ABD96 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5D79B170207F446E006F9B0A;
+			remoteInfo = ReloadHelper;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5D79B17F207F44A6006F9B0A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/XPCServices";
+			dstSubfolderSpec = 16;
+			files = (
+				5D79B180207F44B0006F9B0A /* com.kuglee.BatteryExtra.ReloadHelper.xpc in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		5D0E6F941EB4DA99006ABD96 /* BatteryExtra.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BatteryExtra.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D6D5E0C1EC833B600951AB9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = BatteryExtra/Info.plist; sourceTree = SOURCE_ROOT; };
+		5D79B171207F446E006F9B0A /* com.kuglee.BatteryExtra.ReloadHelper.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = com.kuglee.BatteryExtra.ReloadHelper.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D79B179207F446E006F9B0A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5D8FAB652087B603002885F6 /* BatteryExtra-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BatteryExtra-Bridging-Header.h"; sourceTree = "<group>"; };
+		5D8FAB662087B604002885F6 /* Swizzle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Swizzle.swift; sourceTree = "<group>"; };
+		5D8FAB672087B604002885F6 /* BatteryExtra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BatteryExtra.swift; sourceTree = "<group>"; };
+		5D8FAB682087B604002885F6 /* Loader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loader.swift; sourceTree = "<group>"; };
+		5D8FAB6C2088EF20002885F6 /* BatteryViewInMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BatteryViewInMenu.swift; sourceTree = "<group>"; };
+		5D929897208A8AAB008CD13D /* ReloadHelper-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ReloadHelper-Bridging-Header.h"; sourceTree = "<group>"; };
+		5D929898208A8AAC008CD13D /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		5D92989A208A8B8D008CD13D /* ReloadHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReloadHelper.swift; sourceTree = "<group>"; };
+		5D9298A6208A9AAD008CD13D /* ReloadHelperProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReloadHelperProtocol.swift; sourceTree = "<group>"; };
+		5DC05F75208F87250062B1D6 /* loader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = loader.m; sourceTree = "<group>"; };
+		5DC05FB020923CE00062B1D6 /* CoreMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreMenu.swift; sourceTree = "<group>"; };
+		5DC104FE1EED3C4800DED477 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5DC104FF1EED3C4800DED477 /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5D0E6F911EB4DA99006ABD96 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5D79B16E207F446E006F9B0A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5D0E6F8B1EB4DA99006ABD96 = {
+			isa = PBXGroup;
+			children = (
+				5D0E6F961EB4DA99006ABD96 /* BatteryExtra */,
+				5DC104FC1EED3C4800DED477 /* Resources */,
+				5D79B172207F446E006F9B0A /* ReloadHelper */,
+				5D9298A5208A9AAD008CD13D /* Shared */,
+				5D0E6F951EB4DA99006ABD96 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5D0E6F951EB4DA99006ABD96 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5D0E6F941EB4DA99006ABD96 /* BatteryExtra.bundle */,
+				5D79B171207F446E006F9B0A /* com.kuglee.BatteryExtra.ReloadHelper.xpc */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5D0E6F961EB4DA99006ABD96 /* BatteryExtra */ = {
+			isa = PBXGroup;
+			children = (
+				5D8FAB682087B604002885F6 /* Loader.swift */,
+				5D8FAB672087B604002885F6 /* BatteryExtra.swift */,
+				5D8FAB6C2088EF20002885F6 /* BatteryViewInMenu.swift */,
+				5D8FAB662087B604002885F6 /* Swizzle.swift */,
+				5DC05F75208F87250062B1D6 /* loader.m */,
+				5D8FAB652087B603002885F6 /* BatteryExtra-Bridging-Header.h */,
+				5D6D5E0C1EC833B600951AB9 /* Info.plist */,
+			);
+			path = BatteryExtra;
+			sourceTree = "<group>";
+		};
+		5D79B172207F446E006F9B0A /* ReloadHelper */ = {
+			isa = PBXGroup;
+			children = (
+				5D929898208A8AAC008CD13D /* main.swift */,
+				5DC05FB020923CE00062B1D6 /* CoreMenu.swift */,
+				5D92989A208A8B8D008CD13D /* ReloadHelper.swift */,
+				5D929897208A8AAB008CD13D /* ReloadHelper-Bridging-Header.h */,
+				5D79B179207F446E006F9B0A /* Info.plist */,
+			);
+			path = ReloadHelper;
+			sourceTree = "<group>";
+		};
+		5D9298A5208A9AAD008CD13D /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				5D9298A6208A9AAD008CD13D /* ReloadHelperProtocol.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		5DC104FC1EED3C4800DED477 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5DC104FD1EED3C4800DED477 /* Localizable.strings */,
+			);
+			path = Resources;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5D0E6F931EB4DA99006ABD96 /* BatteryExtra */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5D0E6F9A1EB4DA99006ABD96 /* Build configuration list for PBXNativeTarget "BatteryExtra" */;
+			buildPhases = (
+				5D0E6F901EB4DA99006ABD96 /* Sources */,
+				5D0E6F911EB4DA99006ABD96 /* Frameworks */,
+				5D0E6F921EB4DA99006ABD96 /* Resources */,
+				5D79B17F207F44A6006F9B0A /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5D79B17E207F44A3006F9B0A /* PBXTargetDependency */,
+			);
+			name = BatteryExtra;
+			productName = BetterBattery;
+			productReference = 5D0E6F941EB4DA99006ABD96 /* BatteryExtra.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		5D79B170207F446E006F9B0A /* ReloadHelper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5D79B17A207F446E006F9B0A /* Build configuration list for PBXNativeTarget "ReloadHelper" */;
+			buildPhases = (
+				5D79B16D207F446E006F9B0A /* Sources */,
+				5D79B16E207F446E006F9B0A /* Frameworks */,
+				5D79B16F207F446E006F9B0A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ReloadHelper;
+			productName = ReloadHelper;
+			productReference = 5D79B171207F446E006F9B0A /* com.kuglee.BatteryExtra.ReloadHelper.xpc */;
+			productType = "com.apple.product-type.xpc-service";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5D0E6F8C1EB4DA99006ABD96 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0930;
+				ORGANIZATIONNAME = "Librecz Gábor";
+				TargetAttributes = {
+					5D0E6F931EB4DA99006ABD96 = {
+						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = C89KNBM28S;
+						LastSwiftMigration = 0930;
+						ProvisioningStyle = Automatic;
+					};
+					5D79B170207F446E006F9B0A = {
+						CreatedOnToolsVersion = 9.3;
+						DevelopmentTeam = C89KNBM28S;
+						LastSwiftMigration = 0930;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 5D0E6F8F1EB4DA99006ABD96 /* Build configuration list for PBXProject "BatteryExtra" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				hu,
+			);
+			mainGroup = 5D0E6F8B1EB4DA99006ABD96;
+			productRefGroup = 5D0E6F951EB4DA99006ABD96 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5D0E6F931EB4DA99006ABD96 /* BatteryExtra */,
+				5D79B170207F446E006F9B0A /* ReloadHelper */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5D0E6F921EB4DA99006ABD96 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5DC105001EED3C4800DED477 /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5D79B16F207F446E006F9B0A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5D0E6F901EB4DA99006ABD96 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5DC05F76208F87260062B1D6 /* loader.m in Sources */,
+				5D8FAB6A2087B604002885F6 /* BatteryExtra.swift in Sources */,
+				5D8FAB692087B604002885F6 /* Swizzle.swift in Sources */,
+				5D8FAB6D2088EF20002885F6 /* BatteryViewInMenu.swift in Sources */,
+				5D8FAB6B2087B604002885F6 /* Loader.swift in Sources */,
+				5D9298A7208A9AAD008CD13D /* ReloadHelperProtocol.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5D79B16D207F446E006F9B0A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5D92989B208A8B8D008CD13D /* ReloadHelper.swift in Sources */,
+				5D9298A8208A9AAD008CD13D /* ReloadHelperProtocol.swift in Sources */,
+				5D929899208A8AAC008CD13D /* main.swift in Sources */,
+				5DC05FB120923CE00062B1D6 /* CoreMenu.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5D79B17E207F44A3006F9B0A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5D79B170207F446E006F9B0A /* ReloadHelper */;
+			targetProxy = 5D79B17D207F44A3006F9B0A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		5DC104FD1EED3C4800DED477 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5DC104FE1EED3C4800DED477 /* en */,
+				5DC104FF1EED3C4800DED477 /* hu */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		5D0E6F981EB4DA99006ABD96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer: kuglee@gmail.com (X4W6SXLP2Y)";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = test;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		5D0E6F991EB4DA99006ABD96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer: kuglee@gmail.com (X4W6SXLP2Y)";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = test;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		5D0E6F9B1EB4DA99006ABD96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = C89KNBM28S;
+				INFOPLIST_FILE = "$(SRCROOT)/BatteryExtra/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuglee.batteryextra;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "BatteryExtra/BatteryExtra-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		5D0E6F9C1EB4DA99006ABD96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = C89KNBM28S;
+				INFOPLIST_FILE = "$(SRCROOT)/BatteryExtra/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuglee.batteryextra;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "BatteryExtra/BatteryExtra-Bridging-Header.h";
+				SWIFT_VERSION = 4.0;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		5D79B17B207F446E006F9B0A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = C89KNBM28S;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = ReloadHelper/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuglee.batteryextra.reloadhelper;
+				PRODUCT_NAME = com.kuglee.BatteryExtra.ReloadHelper;
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "ReloadHelper/ReloadHelper-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		5D79B17C207F446E006F9B0A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = C89KNBM28S;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = ReloadHelper/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuglee.batteryextra.reloadhelper;
+				PRODUCT_NAME = com.kuglee.BatteryExtra.ReloadHelper;
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "ReloadHelper/ReloadHelper-Bridging-Header.h";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5D0E6F8F1EB4DA99006ABD96 /* Build configuration list for PBXProject "BatteryExtra" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5D0E6F981EB4DA99006ABD96 /* Debug */,
+				5D0E6F991EB4DA99006ABD96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5D0E6F9A1EB4DA99006ABD96 /* Build configuration list for PBXNativeTarget "BatteryExtra" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5D0E6F9B1EB4DA99006ABD96 /* Debug */,
+				5D0E6F9C1EB4DA99006ABD96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5D79B17A207F446E006F9B0A /* Build configuration list for PBXNativeTarget "ReloadHelper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5D79B17B207F446E006F9B0A /* Debug */,
+				5D79B17C207F446E006F9B0A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5D0E6F8C1EB4DA99006ABD96 /* Project object */;
+}

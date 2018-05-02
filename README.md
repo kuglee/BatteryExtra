@@ -44,7 +44,7 @@ defaults write com.apple.menuextra.battery.plist HideWhenCharged YES
 To change it back run the following command in the command line:
 
 ```bash
-defaults write com.apple.menuextra.battery.plist HideWhenCharged NO
+defaults write com.apple.menuextra.battery.plist HideLabelWhenCharged NO
 ```
 
 You need to restart the system for the changes to take effect.

@@ -38,7 +38,7 @@ Screenshots:
 To only show the battery icon without the label when fully charged, execute the following command in the command line:
 
 ```bash
-defaults write com.apple.menuextra.battery.plist HideWhenCharged YES
+defaults write com.apple.menuextra.battery.plist HideLabelWhenCharged YES
 ```
 
 To change it back run the following command in the command line:

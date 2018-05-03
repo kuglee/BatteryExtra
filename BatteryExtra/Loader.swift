@@ -124,24 +124,26 @@ fileprivate var log: OSLog!
       os_log("Could not load bundle \"%{public}@\"! Quitting...", log: log, type: .error, menuExtraBundlePath)
     }
 
-    do {
-      try swizzle()
-    } catch {
-      switch error {
-      case let SwizzleError.classNotFound(errorMessage):
-        os_log("%{public}@", log: log, type: .error, errorMessage)
-      case let SwizzleError.methodNotFound(errorMessage):
-        os_log("%{public}@", log: log, type: .error, errorMessage)
-      default:
-        os_log("Unexpected error: %{public}@", log: log, type: .error, error as CVarArg)
+    DispatchQueue.main.async {
+      do {
+        try swizzle()
+      } catch {
+        switch error {
+        case let SwizzleError.classNotFound(errorMessage):
+          os_log("%{public}@", log: log, type: .error, errorMessage)
+        case let SwizzleError.methodNotFound(errorMessage):
+          os_log("%{public}@", log: log, type: .error, errorMessage)
+        default:
+          os_log("Unexpected error: %{public}@", log: log, type: .error, error as CVarArg)
+        }
+
+        os_log("Could not swizzle \"%@\"!", log: log, type: .error, Bundle.main.bundleIdentifier!)
+        return
       }
 
-      os_log("Could not swizzle \"%@\"!", log: log, type: .error, Bundle.main.bundleIdentifier!)
-      return
+      os_log("\"%@\" was swizzled successfully!", log: log, Bundle.main.bundleIdentifier!)
+
+      reloadMenuExtraIfVisibleOnMenuBar(bundlePath: menuExtraBundlePath)
     }
-
-    os_log("\"%@\" was swizzled successfully!", log: log, Bundle.main.bundleIdentifier!)
-
-    reloadMenuExtraIfVisibleOnMenuBar(bundlePath: menuExtraBundlePath)
   }
 }

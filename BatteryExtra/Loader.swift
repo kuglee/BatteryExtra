@@ -122,6 +122,7 @@ fileprivate var log: OSLog!
 
     if !menuExtraDidLoad {
       os_log("Could not load bundle \"%{public}@\"! Quitting...", log: log, type: .error, menuExtraBundlePath)
+      return
     }
 
     DispatchQueue.main.async {

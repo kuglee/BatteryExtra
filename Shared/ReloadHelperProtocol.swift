@@ -11,6 +11,6 @@
 import Foundation
 
 @objc protocol ReloadHelperProtocol {
-  func getMenuExtra(bundlePath: String, reply: (Bool) -> Void)
-  func reloadMenuExtra(bundlePath: String, reply: (Bool) -> Void)
+  func getMenuExtra(bundlePath: String, reply: @escaping (Bool) -> Void)
+  func reloadMenuExtra(bundlePath: String, reply: @escaping (Bool) -> Void)
 }

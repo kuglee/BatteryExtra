@@ -65,16 +65,12 @@ extension BatteryExtra {
         } else {
           let percentageString = NumberFormatter.localizedString(from: NSNumber(floatLiteral: sourceState.percentageRemaining / 100), number: NumberFormatter.Style.percent)
 
-          let localizedPercentageStringFormat = mybundle.localizedString(forKey: "SINGLE_PERCENT_FORMAT", value: "", table: nil)
-
-          let localizedPercentageString = String.localizedStringWithFormat(localizedPercentageStringFormat, percentageString)
-
           if sourceState.lastSourceIsFinishingCharge > 0 {
             let localizedString = mybundle.localizedString(forKey: "BAT_FINISH_PERC", value: "", table: nil)
-            title = String.localizedStringWithFormat(localizedString, localizedPercentageString)
+            title = String.localizedStringWithFormat(localizedString, percentageString)
           } else {
             let localizedString = mybundle.localizedString(forKey: "PERCENT_FULL", value: "", table: nil)
-            title = String.localizedStringWithFormat(localizedString, localizedPercentageString)
+            title = String.localizedStringWithFormat(localizedString, percentageString)
           }
         }
       }

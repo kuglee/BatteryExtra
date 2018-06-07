@@ -48,7 +48,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "rm -Rf &quot;/Library/Application Support/SIMBL/Plugins/${EXECUTABLE_NAME}.bundle&quot;&#10;cp -Rf &quot;${BUILT_PRODUCTS_DIR}/${EXECUTABLE_NAME}.bundle&quot; /Library/Application\ Support/SIMBL/Plugins">
+               scriptText = "rm -Rf &quot;/Library/Application Support/SIMBL/Plugins/${EXECUTABLE_NAME}.bundle&quot;&#10;cp -Rf &quot;${BUILT_PRODUCTS_DIR}/${EXECUTABLE_NAME}.bundle&quot; /Library/Application\ Support/SIMBL/Plugins&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"

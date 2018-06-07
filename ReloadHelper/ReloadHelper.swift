@@ -30,7 +30,7 @@ fileprivate func getDefaultPositionOnMenuBar(of menuExtraBundle: Bundle) -> Int?
 }
 
 @objc class ReloadHelper: NSObject, ReloadHelperProtocol {
-  func getMenuExtra(bundlePath: String, reply: (Bool) -> Void) {
+  func getMenuExtra(bundlePath: String, reply: @escaping (Bool) -> Void) {
     let menuExtraBundle = Bundle(path: bundlePath)!
     
     if CoreMenu.get(menuExtra: menuExtraBundle) == nil {
@@ -41,7 +41,7 @@ fileprivate func getDefaultPositionOnMenuBar(of menuExtraBundle: Bundle) -> Int?
     reply(true)
   }
   
-  func reloadMenuExtra(bundlePath: String, reply: (Bool) -> Void) {
+  func reloadMenuExtra(bundlePath: String, reply: @escaping (Bool) -> Void) {
     let menuExtraBundle = Bundle(path: bundlePath)!
     
     guard let position = getDefaultPositionOnMenuBar(of: menuExtraBundle) else {
